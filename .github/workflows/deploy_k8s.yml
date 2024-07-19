@@ -52,4 +52,4 @@ jobs:
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f ./manifest/db-secrets.yml
-          kubectl apply -f ./manifest/*.yml
+          kubectl apply -f ./manifest/
