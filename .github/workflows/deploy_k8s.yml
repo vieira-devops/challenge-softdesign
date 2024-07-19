@@ -1,0 +1,52 @@
+name: Deploy to EKS
+
+on:
+    workflow_dispatch:
+    push:
+      paths:
+        - 'manifest/**'
+      branches:
+        - main
+    pull_request:
+      paths:
+        - 'manifest/**'
+      branches:
+        - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/v1.25.0/bin/linux/amd64/kubectl"
+          chmod +x ./kubectl
+          sudo mv ./kubectl /usr/local/bin/kubectl
+
+      - name: Install eksctl
+        run: |
+          curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/v0.122.0/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
+          sudo mv /tmp/eksctl /usr/local/bin
+
+      - name: Update kubeconfig
+        run: |
+          eksctl utils write-kubeconfig --region ${{ secrets.AWS_REGION }} --cluster softdesin-eks-cluster
+
+      - name: Generate Kubernetes manifest with secrets
+        run: |
+          envsubst < path/to/mongodb-secret-template.yaml | kubectl apply -f -
+
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f ./manifest/*.yml

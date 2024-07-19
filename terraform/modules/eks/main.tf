@@ -1,10 +1,5 @@
-resource "random_string" "suffix" {
-  length  = 8
-  special = false
-}
-
 locals {
-  cluster_name = "softdesin-eks-${random_string.suffix.result}"
+  cluster_name = "softdesin-eks-cluster"
 }
 
 module "eks" {
