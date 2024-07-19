@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: web
+  template:
+    metadata:
+      labels:
+        name: web
+        app: softdesign
+    spec:
+      containers: 
+        - image: lucasnvieira/softdesign-challenge
+          imagePullPolicy: Always
+          name: web
+          ports: 
+            - containerPort: 3000
+          env:
+          - name: MONGO_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secret
+                key: mongo-username
+          - name: MONGO_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secret
+                key: mongo-password
+          - name: MONGO_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: db-config
+                key: mongo-host
+          - name: MONGO_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: db-config
+                key: mongo-port
+          - name: MONGO_URL
+            value: "mongodb://$(MONGO_USERNAME):$(MONGO_PASSWORD)@$(MONGO_HOST):$(MONGO_PORT)"
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: 100m
+            requests:
+              memory: 250Mi
+              cpu: 80m

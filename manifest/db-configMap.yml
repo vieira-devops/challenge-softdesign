@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+data:
+  mongo-host: "db-service"
+  mongo-port: "27017"
