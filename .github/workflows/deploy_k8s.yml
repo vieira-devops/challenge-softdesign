@@ -41,7 +41,7 @@ jobs:
 
       - name: Update kubeconfig
         run: |
-          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name softdesin-eks-cluster
+          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name softdesin-eks-MCQp87Yw
 
       - name: Generate Kubernetes manifest with secrets
         run: |
