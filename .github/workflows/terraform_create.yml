@@ -37,6 +37,5 @@ jobs:
       run: terraform plan
 
     - name: Terraform Apply
-      if: github.event_name == 'push'
       working-directory: ./terraform
       run: terraform apply -auto-approve
