@@ -1,7 +1,3 @@
-# module "minikube_cluster" {
-#   source = "./modules/minikube"
-# }
-
 module "network" {
   source = "./modules/vpc"
   region = var.region
