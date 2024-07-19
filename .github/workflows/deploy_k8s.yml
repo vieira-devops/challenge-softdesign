@@ -34,14 +34,9 @@ jobs:
           chmod +x ./kubectl
           sudo mv ./kubectl /usr/local/bin/kubectl
 
-      - name: Install eksctl
-        run: |
-          curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/v0.122.0/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
-          sudo mv /tmp/eksctl /usr/local/bin
-
       - name: Update kubeconfig
         run: |
-          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name softdesin-eks-MCQp87Yw
+          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name softdesign-eks-cluster
 
       - name: Generate Kubernetes manifest with secrets
         run: |
