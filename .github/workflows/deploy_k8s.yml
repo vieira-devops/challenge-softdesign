@@ -45,7 +45,7 @@ jobs:
 
       - name: Generate Kubernetes manifest with secrets
         run: |
-          envsubst < path/to/mongodb-secret-template.yaml | kubectl apply -f -
+          envsubst < ./manifest/db-secrets.yml | kubectl apply -f -
 
       - name: Apply Kubernetes manifests
         run: |

@@ -1,5 +1,5 @@
 locals {
-  cluster_name = "softdesin-eks-cluster"
+  cluster_name = "softdesign-eks-cluster"
 }
 
 module "eks" {
